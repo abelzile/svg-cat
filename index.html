@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat</title>
+  <script>
+
+    const shapes = [
+      'tail_1',
+      'tail_2',
+      'body',
+      'left_back_foot_1',
+      'right_back_foot_1',
+      'left_back_foot_2',
+      'right_back_foot_2',
+      'left_back_foot_3',
+      'right_back_foot_3',
+      'left_back_foot_4',
+      'right_back_foot_4',
+      'front_legs',
+      'left_front_foot_1',
+      'right_front_foot_1',
+      'left_front_foot_claw_1',
+      'right_front_foot_claw_1',
+      'left_front_foot_2',
+      'right_front_foot_2',
+      'left_front_foot_claw_2',
+      'right_front_foot_claw_2',
+      'left_front_foot_3',
+      'right_front_foot_3',
+      'left_front_foot_claw_3',
+      'right_front_foot_claw_3',
+      'left_front_foot_4',
+      'right_front_foot_4',
+      'left_front_foot_claw_4',
+      'right_front_foot_claw_4',
+      'chest',
+      'neck',
+      'head',
+      'chin',
+      'ears',
+      'ear_insides',
+      'nose_bridge',
+      'mouth',
+      'cheeks',
+      'eye_corners',
+      'eyes',
+      'pupils',
+      'nose',
+      'lip',
+      'nostrils',
+      'left_whiskers',
+      'right_whiskers',
+      'left_whiskers_row_1',
+      'left_whiskers_row_2',
+      'left_whiskers_row_3',
+      'right_whiskers_row_1',
+      'right_whiskers_row_2',
+      'right_whiskers_row_3',
+      'eyebrows',
+    ];
+
+    const presets = [
+      'gray',
+      'orange'
+    ];
+
+    const presetStyles = [
+      {
+        id: 'gray',
+        shapeStyles: [
+          {
+            id: 'tail_1',
+            fill: 'bcbcbc'
+          },
+          {
+            id: 'tail_2',
+            fill: 'cccccc'
+          },
+          {
+            id: 'body',
+            fill: '999999'
+          },
+          {
+            id: ['left_back_foot_1', 'right_back_foot_1'],
+            fill: 'bbbbbb'
+          },
+          {
+            id: ['left_back_foot_2', 'right_back_foot_2'],
+            fill: 'bbbbbb'
+          },
+          {
+            id: ['left_back_foot_3', 'right_back_foot_3'],
+            fill: 'dddddd'
+          },
+          {
+            id: ['left_back_foot_4', 'right_back_foot_4'],
+            fill: 'cccccc'
+          },
+          {
+            id: 'front_legs',
+            fill: 'bcbcbc'
+          },
+          {
+            id: ['left_front_foot_1', 'right_front_foot_1'],
+            fill: 'bbbbbb'
+          },
+          {
+            id: ['left_front_foot_claw_1', 'right_front_foot_claw_1'],
+            stroke: 'aaaaaa'
+          },
+          {
+            id: ['left_front_foot_2', 'right_front_foot_2'],
+            fill: 'cccccc'
+          },
+          {
+            id: ['left_front_foot_claw_2', 'right_front_foot_claw_2'],
+            stroke: 'aaaaaa'
+          },
+          {
+            id: ['left_front_foot_3', 'right_front_foot_3'],
+            fill: 'cccccc'
+          },
+          {
+            id: ['left_front_foot_claw_3', 'right_front_foot_claw_3'],
+            stroke: 'aaaaaa'
+          },
+          {
+            id: ['left_front_foot_4', 'right_front_foot_4'],
+            fill: 'dddddd'
+          },
+          {
+            id: ['left_front_foot_claw_4', 'right_front_foot_claw_4'],
+            stroke: 'aaaaaa'
+          },
+          {
+            id: 'chest',
+            fill: 'cccccc'
+          },
+          {
+            id: 'neck',
+            fill: 'bbbbbb'
+          },
+          {
+            id: ['head', 'chin'],
+            fill: '999999'
+          },
+          {
+            id: 'ears',
+            fill: '999999'
+          },
+          {
+            id: 'ear_insides',
+            fill: 'ba9999'
+          },
+          {
+            id: 'nose_bridge',
+            fill: '888888'
+          },
+          {
+            id: 'nose_sides',
+            fill: '999999'
+          },
+          {
+            id: 'mouth',
+            fill: '888888'
+          },
+          {
+            id: 'cheeks',
+            fill: 'aaaaaa'
+          },
+          {
+            id: 'eye_corners',
+            fill: '777777'
+          },
+          {
+            id: 'eyes',
+            fill: 'e4b81c',
+            stroke: '777777'
+          },
+          {
+            id: 'pupils',
+            fill: '000000'
+          },
+          {
+            id: 'nose',
+            fill: 'e45860'
+          },
+          {
+            id: 'lip',
+            stroke: 'd6535a'
+          },
+          {
+            id: 'nostrils',
+            fill: '66272b'
+          },
+          {
+            id: ['left_whiskers', 'right_whiskers'],
+            fill: '777777'
+          },
+          {
+            id: [
+              'left_whiskers_row_1','left_whiskers_row_2','left_whiskers_row_3',
+              'right_whiskers_row_1','right_whiskers_row_2','right_whiskers_row_3'
+            ],
+            stroke: 'ffffff'
+          },
+          {
+            id: 'eyebrows',
+            stroke: 'ffffff'
+          },
+          {
+            id: 'tabby_marks',
+            visibility: false
+          }
+        ]
+      },
+      {
+        //#D9954F      #EAB374      #BE7431      #F0CFA2      #934E1F      #FAF8ED
+        id: 'orange',
+        shapeStyles: [
+          {
+            id: 'tail_1',
+            fill: '934E1F'
+          },
+          {
+            id: 'tail_2',
+            fill: 'F0CFA2'
+          },
+          {
+            id: 'body',
+            fill: 'BE7431'
+          },
+          {
+            id: ['left_back_foot_1', 'right_back_foot_1'],
+            fill: 'FAF8ED'
+          },
+          {
+            id: ['left_back_foot_2', 'right_back_foot_2'],
+            fill: 'FAF8ED'
+          },
+          {
+            id: ['left_back_foot_3', 'right_back_foot_3'],
+            fill: 'FAF8ED'
+          },
+          {
+            id: ['left_back_foot_4', 'right_back_foot_4'],
+            fill: 'FAF8ED'
+          },
+          {
+            id: 'front_legs',
+            fill: 'F0CFA2'
+          },
+          {
+            id: ['left_front_foot_1', 'right_front_foot_1'],
+            fill: 'FAF8ED'//'BE7431'
+          },
+          {
+            id: ['left_front_foot_claw_1', 'right_front_foot_claw_1'],
+            stroke: '934E1F'
+          },
+          {
+            id: ['left_front_foot_2', 'right_front_foot_2'],
+            fill: 'FAF8ED'//'EAB374'
+          },
+          {
+            id: ['left_front_foot_claw_2', 'right_front_foot_claw_2'],
+            stroke: '934E1F'
+          },
+          {
+            id: ['left_front_foot_3', 'right_front_foot_3'],
+            fill: 'FAF8ED'//'EAB374'
+          },
+          {
+            id: ['left_front_foot_claw_3', 'right_front_foot_claw_3'],
+            stroke: '934E1F'
+          },
+          {
+            id: ['left_front_foot_4', 'right_front_foot_4'],
+            fill: 'FAF8ED'//'F0CFA2'
+          },
+          {
+            id: ['left_front_foot_claw_4', 'right_front_foot_claw_4'],
+            stroke: '934E1F'
+          },
+          {
+            id: 'chest',
+            fill: 'FAF8ED'
+          },
+          {
+            id: 'neck',
+            fill: 'EAB374'
+          },
+          {
+            id: ['head', 'chin'],
+            fill: 'F0CFA2'
+          },
+          {
+            id: 'ears',
+            fill: 'F0CFA2'
+          },
+          {
+            id: 'ear_insides',
+            fill: 'FAF8ED'
+          },
+          {
+            id: 'nose_bridge',
+            fill: 'EAB374'
+          },
+          {
+            id: 'nose_sides',
+            fill: 'BE7431'
+          },
+          {
+            id: 'mouth',
+            fill: 'BE7431'
+          },
+          {
+            id: 'cheeks',
+            fill: 'EAB374'
+          },
+          {
+            id: 'eye_corners',
+            fill: '000'
+          },
+          {
+            id: 'eyes',
+            fill: 'e5ac46',
+            stroke: '000'
+          },
+          {
+            id: 'pupils',
+            fill: '000000'
+          },
+          {
+            id: 'nose',
+            fill: 'e45860'
+          },
+          {
+            id: 'lip',
+            stroke: 'd6535a'
+          },
+          {
+            id: 'nostrils',
+            fill: '66272b'
+          },
+          {
+            id: ['left_whiskers', 'right_whiskers'],
+            fill: 'BE7431'
+          },
+          {
+            id: [
+              'left_whiskers_row_1','left_whiskers_row_2','left_whiskers_row_3',
+              'right_whiskers_row_1','right_whiskers_row_2','right_whiskers_row_3'
+            ],
+            stroke: 'ffffff'
+          },
+          {
+            id: 'eyebrows',
+            stroke: 'ffffff'
+          },
+          {
+            id: 'tabby_marks',
+            stroke: 'be7431'
+          }
+        ]
+      },
+    ];
+
+    function applyPresetStyles(presetStyle) {
+      if (!presetStyle) {
+        return;
+      }
+
+      for (const settings of presetStyle.shapeStyles) {
+        if (Array.isArray(settings.id)) {
+          for (const id of settings.id) {
+            applyPresetStyle(settings, id);
+          }
+        } else if (typeof settings.id === 'string' || settings.id instanceof String) {
+          applyPresetStyle(settings, settings.id);
+        }
+      }
+    }
+
+    function applyPresetStyle(settings, id) {
+      if (settings.hasOwnProperty('visibility')) {
+        setVisibility(id, settings.visibility);
+      } else {
+        setVisibility(id, true);
+      }
+      if (settings.hasOwnProperty('fill')) {
+        setFill(id, settings.fill)
+      }
+      if (settings.hasOwnProperty('stroke')) {
+        setStroke(id, settings.stroke)
+      }
+    }
+
+    function setFill(id, color) {
+      const shape = document.getElementById(id);
+      shape.setAttribute('fill', ((color !== 'none') ? '#' : '') + color);
+    }
+
+    function setStroke(id, color) {
+      const shape = document.getElementById(id);
+      shape.setAttribute('stroke', '#' + color);
+    }
+
+    function setVisibility(id, visible) {
+      const shape = document.getElementById(id);
+      shape.setAttribute('visibility', visible ? 'visible' : 'hidden')
+    }
+
+    function loadPresetList() {
+      const lst = document.getElementById('presets_lst');
+
+      if (!lst) {
+        return;
+      }
+
+      lst.innerHTML = '';
+
+      for (const p of presets) {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.innerHTML = p;
+        lst.appendChild(opt);
+      }
+    }
+
+    function onPresetChange(list) {
+      const preset = presetStyles.find(pc => pc.id === list.value);
+
+      applyPresetStyles(preset);
+    }
+
+    const getURLParameters = url =>
+      (url.match(/([^?=&]+)(=([^&]*))/g) || []).reduce(
+        (a, v) => ((a[v.slice(0, v.indexOf('='))] = v.slice(v.indexOf('=') + 1)), a),
+        {}
+      );
+
+    document.addEventListener('DOMContentLoaded', function(event) {
+
+      loadPresetList();
+
+      const x = getURLParameters(window.location.search);
+
+      console.log(x);
+
+      applyPresetStyles(presetStyles[0])
+
+    });
+
+  </script>
+</head>
+<body
+    style="margin:0; padding:0; background-color:#eee;">
+
+
+<div style="position:absolute; top:0; left: 800px; border:solid 1px #999999; width:300px; height:600px;padding:2px;">
+  <div>
+    Cat
+  </div>
+  <div>
+    Presets: <select id="presets_lst" onchange="onPresetChange(this)"></select>
+  </div>
+
+
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="795"
+     height="1024"
+     viewBox="0 0 795 1024">
+  <defs>
+    <filter id="f1" x="-5" y="-5" width="50" height="50">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+    </filter>
+  </defs>
+  <polygon id="tail_1"
+           points="438,895
+                   594,890
+                   635,898
+                   663,910
+                   673,922
+                   672,940
+                   670,945
+                   380,945"
+           fill="#bcbcbc"/>
+
+  <polygon id="tail_2"
+           points="503,949
+                   505,944
+                   512,939
+                   642,906
+                   660,909
+                   674,919
+                   678,929
+                   678,938
+                   674,948
+                   668,954
+                   512,960
+                   505,955"
+           fill="#cccccc"/>
+
+  <g id="body">
+    <path d="M135,790 a1,2.2 0 1,1 380,0"/>
+    <path d="M135,789 a1,.94 0 0,0 380,0"/>
+  </g>
+
+  <rect id="leg_shadow" x="310" y="575" height="375" width="30" fill="#000000" opacity="0.1"/>
+
+  <g id="left_back_foot">
+    <ellipse id="left_back_foot_1" cx="254" cy="925" rx="40" ry="18" fill="#bbbbbb"/>
+    <rect id="left_back_foot_2" x="205" y="922" rx="14" ry="14" width="40" height="40" fill="#bbbbbb"/>
+    <rect id="left_back_foot_3" x="214" y="918" rx="16" ry="16" width="40" height="46" fill="#dddddd"/>
+    <rect id="left_back_foot_4" x="233" y="916" rx="16" ry="16" width="40" height="48" fill="#cccccc"/>
+  </g>
+
+  <g id="right_back_foot">
+    <ellipse id="right_back_foot_1" cx="396" cy="925" rx="40" ry="18" fill="#bbbbbb"/>
+    <rect id="right_back_foot_2" x="405" y="922" rx="14" ry="14" width="40" height="40" fill="#bbbbbb"/>
+    <rect id="right_back_foot_3" x="396" y="918" rx="16" ry="16" width="40" height="46" fill="#dddddd"/>
+    <rect id="right_back_foot_4" x="377" y="916" rx="16" ry="16" width="40" height="48" fill="#cccccc"/>
+  </g>
+
+  <g id="front_legs">
+    <polygon points="226,342
+                     203,429
+                     203,530
+                     266,963
+                     323,963
+                     314,561"/>
+    <polygon points="424,342
+                     447,429
+                     447,530
+                     384,963
+                     327,963
+                     336,561"/>
+  </g>
+
+  <g id="left_front_foot">
+    <rect id="left_front_foot_1" x="246" y="938" rx="8" ry="8" width="20" height="32" fill="#bbbbbb"/>
+    <line id="left_front_foot_claw_1" x1="250" y1="959" x2="252" y2="969" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="left_front_foot_2" x="256" y="933" rx="10" ry="10" width="28" height="38" fill="#cccccc"/>
+    <line id="left_front_foot_claw_2" x1="266" y1="957" x2="268" y2="971" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="left_front_foot_3" x="297" y="933" rx="10" ry="10" width="28" height="38" fill="#cccccc"/>
+    <line id="left_front_foot_claw_3" x1="314" y1="957" x2="312" y2="971" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="left_front_foot_4" x="274" y="932" rx="10" ry="10" width="28" height="40" fill="#dddddd"/>
+    <line id="left_front_foot_claw_4" x1="288" y1="956" x2="288" y2="971" stroke-width="1" stroke="#aaaaaa" />
+  </g>
+
+  <g id="right_front_foot">
+    <rect id="right_front_foot_1" x="384" y="938" rx="8" ry="8" width="20" height="32" fill="#bbbbbb"/>
+    <line id="right_front_foot_claw_1" x1="400" y1="959" x2="398" y2="969" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="right_front_foot_2" x="366" y="933" rx="10" ry="10" width="28" height="38" fill="#cccccc"/>
+    <line id="right_front_foot_claw_2" x1="384" y1="957" x2="382" y2="971" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="right_front_foot_3" x="325" y="933" rx="10" ry="10" width="28" height="38" fill="#cccccc"/>
+    <line id="right_front_foot_claw_3" x1="336" y1="957" x2="338" y2="971" stroke-width="1" stroke="#aaaaaa" />
+
+    <rect id="right_front_foot_4" x="348" y="932" rx="10" ry="10" width="28" height="40" fill="#dddddd"/>
+    <line id="right_front_foot_claw_4" x1="362" y1="956" x2="362" y2="971" stroke-width="1" stroke="#aaaaaa" />
+  </g>
+
+  <ellipse id="chest" cx="325" cy="380" rx="120" ry="200"
+           fill="#cccccc"/>
+
+  <ellipse id="neck" cx="325" cy="276" rx="112" ry="84"
+           fill="#bbbbbb"/>
+
+  <ellipse id="chin" cx="325" cy="306" rx="60" ry="45"
+           fill="#999999"/>
+
+  <g id="ears" fill="#999999">
+    <polygon points="358,160 380,152 424,103 439,95 445,94 452,103 456,117 455,149 448,176 445,203 437,216 436,233"/>
+    <polygon points="292,160 270,152 226,103 211,95 205,94 198,103 194,117 195,149 202,176 205,203 213,216 214,233"/>
+  </g>
+
+  <g id="ear_insides" fill="#ba9999">
+    <polygon points="226,209
+                     205,150
+                     202,125
+                     205,102
+                     222,108
+                     238,125
+                     275,172"/>
+    <polygon points="424,209
+                     445,150
+                     448,125
+                     445,102
+                     428,108
+                     412,125
+                     375,172"/>
+  </g>
+
+  <ellipse id="head" cx="325" cy="250" rx="115" ry="95" fill="#999999"/>
+
+  <ellipse id="nose_sides" cx="325" cy="270" rx="32" ry="26" fill="#999999"/>
+
+  <ellipse id="nose_bridge" cx="325" cy="263" rx="21" ry="30" fill="#888888"/>
+
+  <ellipse id="mouth" cx="325" cy="298" rx="22" ry="10" fill="#888888"/>
+
+  <g id="cheeks">
+    <ellipse cx="300" cy="290" rx="26" ry="22"
+             transform="rotate(-15, 300, 291)"/>
+    <ellipse cx="350" cy="290" rx="26" ry="22"
+             transform="rotate(15, 350, 291)"/>
+  </g>
+
+  <g id="eye_corners" fill="#777777">
+    <polygon points="290,248 303,249 302,234"/>
+    <polygon points="360,248 347,249 348,234"/>
+  </g>
+
+  <g id="eyes" fill="#e4b81c" stroke="#777777" stroke-width="2px">
+    <ellipse cx="282" cy="232" rx="20" ry="15"
+             transform="rotate(15, 282, 232)"/>
+    <ellipse cx="368" cy="232" rx="20" ry="15"
+             transform="rotate(-15, 368, 232)"/>
+  </g>
+
+  <g id="pupils">
+    <path d="M282,222 a0.3,1 0 1,1 0,17"/>
+    <path d="M282,222 a0.3,1 0 0,0 0,17"/>
+    <path d="M368,222 a0.3,1 0 1,1 0,17"/>
+    <path d="M368,222 a0.3,1 0 0,0 0,17"/>
+  </g>
+
+  <polygon id="nose"
+           points="325,261
+                   338,262
+                   341,269
+                   325,286
+                   309,269
+                   312,262"
+           fill="#e45860"/>
+
+  <g id="tabby_marks" stroke-width="8" stroke-linecap="round" filter="url(#f1)" opacity=".3">
+    <line x1="296" y1="212" x2="304" y2="176"/>
+    <line x1="304" y1="176" x2="314" y2="206"/>
+    <line x1="354" y1="212" x2="346" y2="176"/>
+    <line x1="346" y1="176" x2="336" y2="206"/>
+    <line x1="257" y1="225" x2="217" y2="248"/>
+    <line x1="271" y1="283" x2="220" y2="272"/>
+    <line x1="393" y1="225" x2="433" y2="248"/>
+    <line x1="379" y1="283" x2="430" y2="272"/>
+  </g>
+
+  <line id="lip" x1="325" y1="268" x2="325" y2="297"
+        stroke="#d6535a" stroke-width="1px"/>
+
+  <g id="nostrils">
+    <path d="M338,272 A1,1 0 1,0 331,279"/>
+    <path d="M312,272 A1,1 0 0,1 319,279"/>
+  </g>
+
+  <g id="left_whiskers" fill="#777777">
+    <circle cx="300" cy="282" r="2"/>
+    <circle cx="293" cy="281" r="2"/>
+    <circle cx="286" cy="280" r="2"/>
+
+    <g id="left_whiskers_row_1" stroke="#ffffff" fill="none">
+      <path d="M286,280
+               Q246,275
+               206,280"/>
+      <path d="M293,281
+               Q248,278
+               203,286"/>
+      <path d="M300,282
+               Q250,281
+               200,292"/>
+    </g>
+
+    <circle cx="307" cy="289" r="2"/>
+    <circle cx="300" cy="289" r="2"/>
+    <circle cx="293" cy="289" r="2"/>
+    <circle cx="286" cy="289" r="2"/>
+
+    <g id="left_whiskers_row_2" stroke="#ffffff" fill="none">
+      <path d="M286,289
+               Q247,289
+               207,300"/>
+      <path d="M293,289
+               Q247,289
+               200,310"/>
+      <path d="M300,289
+               Q247,289
+               193,320"/>
+      <path d="M307,289
+               Q247,289
+               186,330"/>
+    </g>
+
+    <circle cx="307" cy="296" r="2"/>
+    <circle cx="300" cy="297" r="2"/>
+    <circle cx="293" cy="298" r="2"/>
+
+    <g id="left_whiskers_row_3" stroke="#ffffff" fill="none">
+      <path d="M293,298
+               Q250,298
+               207,340"/>
+      <path d="M300,297
+               Q260,297
+               220,360"/>
+      <path d="M307,296
+               Q270,296
+               233,380"/>
+    </g>
+  </g>
+
+  <g id="right_whiskers" fill="#777777">
+    <circle cx="350" cy="282" r="2" />
+    <circle cx="357" cy="281" r="2" />
+    <circle cx="364" cy="280" r="2" />
+
+    <g id="right_whiskers_row_1" stroke="#ffffff" fill="none">
+      <path d="M364,280
+               Q404,275
+               444,280"/>
+      <path d="M357,281
+               Q402,278
+               447,286"/>
+      <path d="M350,282
+               Q400,281
+               450,292"/>
+    </g>
+
+    <circle cx="343" cy="289" r="2" />
+    <circle cx="350" cy="289" r="2" />
+    <circle cx="357" cy="289" r="2" />
+    <circle cx="364" cy="289" r="2" />
+
+    <g id="right_whiskers_row_2" stroke="#ffffff" fill="none">
+      <path d="M364,289
+               Q403,289
+               443,300"/>
+      <path d="M357,289
+               Q403,289
+               450,310"/>
+      <path d="M350,289
+               Q403,289
+               457,320"/>
+      <path d="M343,289
+               Q403,289
+               464,330"/>
+    </g>
+
+    <circle cx="343" cy="296" r="2" />
+    <circle cx="350" cy="297" r="2" />
+    <circle cx="357" cy="298" r="2" />
+
+    <g id="right_whiskers_row_3" stroke="#ffffff" fill="none">
+      <path d="M357,298
+               Q400,298
+               443,340"/>
+      <path d="M350,297
+               Q390,297
+               430,360"/>
+      <path d="M343,296
+               Q380,296
+               417,380"/>
+    </g>
+  </g>
+
+  <g id="eyebrows" stroke="#ffffff">
+    <g fill="none">
+      <path d="M300,198 Q300,170 290,140"/>
+      <path d="M290,199 Q285,175 260,150"/>
+      <path d="M280,200 Q255,160 230,160"/>
+    </g>
+    <g fill="none">
+      <path d="M350,198 Q350,170 360,140"/>
+      <path d="M360,199 Q365,175 390,150"/>
+      <path d="M370,200 Q395,160 420,160"/>
+    </g>
+  </g>
+</svg>
+
+
+</body>
+</html>
