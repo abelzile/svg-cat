@@ -6,58 +6,7 @@
   <script>
 
     const shapes = [
-      'tail_1',
-      'tail_2',
       'body',
-      'left_back_foot_1',
-      'right_back_foot_1',
-      'left_back_foot_2',
-      'right_back_foot_2',
-      'left_back_foot_3',
-      'right_back_foot_3',
-      'left_back_foot_4',
-      'right_back_foot_4',
-      'front_legs',
-      'left_front_foot_1',
-      'right_front_foot_1',
-      'left_front_foot_claw_1',
-      'right_front_foot_claw_1',
-      'left_front_foot_2',
-      'right_front_foot_2',
-      'left_front_foot_claw_2',
-      'right_front_foot_claw_2',
-      'left_front_foot_3',
-      'right_front_foot_3',
-      'left_front_foot_claw_3',
-      'right_front_foot_claw_3',
-      'left_front_foot_4',
-      'right_front_foot_4',
-      'left_front_foot_claw_4',
-      'right_front_foot_claw_4',
-      'chest',
-      'neck',
-      'head',
-      'chin',
-      'ears',
-      'ear_insides',
-      'nose_bridge',
-      'mouth',
-      'cheeks',
-      'eye_corners',
-      'eyes',
-      'pupils',
-      'nose',
-      'lip',
-      'nostrils',
-      'left_whiskers',
-      'right_whiskers',
-      'left_whiskers_row_1',
-      'left_whiskers_row_2',
-      'left_whiskers_row_3',
-      'right_whiskers_row_1',
-      'right_whiskers_row_2',
-      'right_whiskers_row_3',
-      'eyebrows',
     ];
 
     const presets = [
@@ -433,6 +382,42 @@
       const preset = presetStyles.find(pc => pc.id === list.value);
 
       applyPresetStyles(preset);
+      loadShapeControls();
+      updateUrl();
+    }
+
+    function onFillChange(evt) {
+      const target = evt.target;
+      const shapeId = target.id.substring(0, target.id.lastIndexOf('_'));
+
+      const shape = document.getElementById(shapeId);
+      shape.setAttribute('fill', target.value);
+
+      updateUrl();
+    }
+
+    function getCurrentPresetStyles() {
+
+      const lst = document.getElementById('presets_lst');
+
+      if (!lst) {
+        return undefined;
+      }
+
+      return presetStyles.find(ps => ps.id === lst.value);
+    }
+
+    function updateUrl(){
+      const a = document.getElementById('url');
+
+      let url = window.location.protocol + '//' + window.location.pathname;
+
+      const preset = getCurrentPresetStyles();
+      url += '?p=' + preset.id;
+
+      //TODO: update url with changed individual colors.
+
+      a.innerHTML = url;
     }
 
     const getURLParameters = url =>
@@ -441,33 +426,88 @@
         {}
       );
 
+    function applyOptions(options = {}) {
+      if (options.hasOwnProperty('p')) {
+        if (presets.find(p => p === options.p)) {
+          const lst = document.getElementById('presets_lst');
+          lst.value = options.p;
+          lst.onchange();
+        }
+      }
+    }
+
+    function loadShapeControls() {
+      const shapeControlsDiv = document.getElementById('shapeControls');
+
+      if (!shapeControlsDiv) {
+        return;
+      }
+
+      shapeControlsDiv.innerHTML = '';
+
+      for (const shape of shapes) {
+        const shapeTag = document.getElementById(shape);
+
+        if (!shapeTag) {
+          continue;
+        }
+
+        if (shapeTag.hasAttribute('fill')) {
+
+          const div = document.createElement('div');
+
+          const span = document.createElement('span');
+          span.innerHTML = shape + ' fill: ';
+
+          div.appendChild(span);
+
+          const input = document.createElement('input');
+          input.id = shape + '_fill';
+          input.type = "color";
+          input.value = shapeTag.getAttribute('fill');
+          input.addEventListener("change", onFillChange);
+
+          div.appendChild(input);
+
+          shapeControlsDiv.appendChild(div);
+
+        }
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function(event) {
 
       loadPresetList();
 
-      const x = getURLParameters(window.location.search);
+      applyPresetStyles(presetStyles[0]);
 
-      console.log(x);
+      const options = getURLParameters(window.location.search);
 
-      applyPresetStyles(presetStyles[0])
+      applyOptions(options);
+
+      loadShapeControls();
+
+      updateUrl();
 
     });
 
   </script>
 </head>
-<body
-    style="margin:0; padding:0; background-color:#eee;">
+<body style="margin:0; padding:0; background-color:#eee;">
 
 
 <div style="position:absolute; top:0; left: 800px; border:solid 1px #999999; width:300px; height:600px;padding:2px;">
   <div>
     Cat
   </div>
+  <hr/>
   <div>
     Presets: <select id="presets_lst" onchange="onPresetChange(this)"></select>
   </div>
-
-
+  <hr/>
+  <a id="url"></a>
+  <hr/>
+  <div id="shapeControls"></div>
 </div>
 
 <svg xmlns="http://www.w3.org/2000/svg"
